@@ -26,6 +26,7 @@ with models.DAG(
         export_format="CSV",
         field_delimiter=",",
         print_header=True,
+        deferrable=True,
     )
 
     load_table = GCSToBigQueryOperator(
@@ -80,6 +81,7 @@ with models.DAG(
         skip_leading_rows=1,
         allow_quoted_newlines=True,
         write_disposition="WRITE_TRUNCATE",
+        deferrable=True,
     )
     # BigQueryInsertJobOperator which executes a SQL query to SELECT from the realease_notes table
     # and inserts the results into the release_notes_copy table
@@ -92,10 +94,11 @@ with models.DAG(
                 "destinationTable": {
                     "projectId": "vz-assessment",
                     "datasetId": "testing",
-                    "tableId": "top_10_latest_release_notes",
+                    "tableId": "10_latest_release_notes",
                 },
                 "writeDisposition": "WRITE_TRUNCATE",
             }
         },
+        deferrable=True,
     )
     export_table >> load_table >> elt_sql
