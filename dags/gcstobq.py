@@ -2,6 +2,8 @@
 import datetime
 from airflow import models  # noqa: F401
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
+
 
 with models.DAG(
     dag_id="gcstobq",
@@ -10,7 +12,7 @@ with models.DAG(
     is_paused_upon_creation=False,
     tags=["example"],
 ) as dag:
-    GCSToBigQueryOperator(
+    load_table = GCSToBigQueryOperator(
         task_id="task",
         bucket="vz-lineage-demo",
         source_objects=["release-notes.csv"],
@@ -63,3 +65,21 @@ with models.DAG(
         allow_quoted_newlines=True,
         write_disposition="WRITE_TRUNCATE",
     )
+    # BigQueryInsertJobOperator which executes a SQL query to SELECT from the realease_notes table
+    # and inserts the results into the release_notes_copy table
+    elt_sql = BigQueryInsertJobOperator(
+        task_id="bq_insert",
+        configuration={
+            "query": {
+                "query": "SELECT * FROM `vz-assessment.testing.release_notes` ORDER BY published_at DESC LIMIT 10",
+                "useLegacySql": False,
+            },
+            "destinationTable": {
+                "projectId": "vz-assessment",
+                "datasetId": "testing",
+                "tableId": "top_10_latest_release_notes",
+            },
+        },
+    )
+    load_table >> elt_sql
+    
