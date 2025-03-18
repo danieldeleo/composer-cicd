@@ -79,6 +79,7 @@ with models.DAG(
                 "datasetId": "testing",
                 "tableId": "top_10_latest_release_notes",
             },
+            "writeDisposition": "WRITE_TRUNCATE",
         },
     )
     load_table >> elt_sql
