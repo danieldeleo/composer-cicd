@@ -3,6 +3,8 @@ import datetime
 from airflow import models  # noqa: F401
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
+from airflow.providers.google.cloud.transfers.bigquery_to_gcs import BigQueryToGCSOperator
+
 
 
 with models.DAG(
@@ -12,6 +14,16 @@ with models.DAG(
     is_paused_upon_creation=False,
     tags=["example"],
 ) as dag:
+    # BigQueryToGCS operator which exports a BigQuery table to GCS
+    export_table = BigQueryToGCSOperator(
+        task_id="export_table",
+        source_project_dataset_table="bigquery-public-data:google_cloud_release_notes.release_notes",
+        destination_cloud_storage_uris=["gs://vz-lineage-demo/release-notes.csv"],
+        export_format="CSV",
+        field_delimiter=",",
+        print_header=True,
+    )
+
     load_table = GCSToBigQueryOperator(
         task_id="task",
         bucket="vz-lineage-demo",
@@ -82,5 +94,5 @@ with models.DAG(
             }
         },
     )
-    load_table >> elt_sql
+    export_table >> load_table >> elt_sql
     
