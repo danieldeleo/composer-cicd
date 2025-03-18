@@ -6,7 +6,6 @@ steps:
   # https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt
   # Run DAG unit tests 
   - name: apache/airflow:2.10.2-python3.11
-    dir: composer
     script: |
       #!/usr/bin/env bash
       set -eo pipefail  # Enable exit-on-error mode
