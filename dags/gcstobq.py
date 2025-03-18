@@ -40,7 +40,7 @@ with models.DAG(
             {
                 "name": "product_id",
                 "mode": "NULLABLE",
-                "type": "STRING",
+                "type": "BIGNUMERIC",
                 "description": "",
                 "fields": []
             },
