@@ -34,14 +34,14 @@ with models.DAG(
             {
                 "name": "published_at",
                 "mode": "NULLABLE",
-                "type": "DATE",
+                "type": "STRING",
                 "description": "",
                 "fields": []
             },
             {
                 "name": "product_id",
                 "mode": "NULLABLE",
-                "type": "INTEGER",
+                "type": "STRING",
                 "description": "",
                 "fields": []
             },
@@ -61,6 +61,5 @@ with models.DAG(
             }
         ],
         skip_leading_rows=1,
-        quote_character='"',
         write_disposition="WRITE_TRUNCATE",
     )
