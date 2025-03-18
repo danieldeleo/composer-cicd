@@ -73,13 +73,13 @@ with models.DAG(
             "query": {
                 "query": "SELECT * FROM `vz-assessment.testing.release_notes` ORDER BY published_at DESC LIMIT 10",
                 "useLegacySql": False,
-            },
-            "destinationTable": {
-                "projectId": "vz-assessment",
-                "datasetId": "testing",
-                "tableId": "top_10_latest_release_notes",
-            },
-            "writeDisposition": "WRITE_TRUNCATE",
+                "destinationTable": {
+                    "projectId": "vz-assessment",
+                    "datasetId": "testing",
+                    "tableId": "top_10_latest_release_notes",
+                },
+                "writeDisposition": "WRITE_TRUNCATE",
+            }
         },
     )
     load_table >> elt_sql
