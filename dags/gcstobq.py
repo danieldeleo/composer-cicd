@@ -8,6 +8,7 @@ with models.DAG(
     schedule_interval=None,
     start_date=datetime.datetime(2021, 1, 1),
     catchup=True,
+    is_paused_upon_creation=False,
     tags=["example"],
 ) as dag:
     GCSToBigQueryOperator(
