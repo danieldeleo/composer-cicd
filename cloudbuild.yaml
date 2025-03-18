@@ -22,3 +22,5 @@ steps:
       #!/usr/bin/env bash
       set -eo pipefail  # Enable exit-on-error mode
       gcloud storage cp dags/*.py gs://us-central1-small-composer-26339c12-bucket/dags/
+options:
+  defaultLogsBucketBehavior: CLOUD_LOGGING_ONLY
