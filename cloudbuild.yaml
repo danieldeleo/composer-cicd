@@ -1,0 +1,24 @@
+steps:
+  # Install the Python dependencies you need for your DAGs
+  # Pin dependencies to the same versions used in your Composer instance by specifying a constraints file
+  # https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html#constraints-files
+  # Match your Airflow & Python version using the following templated link:
+  # https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt
+  # Run DAG unit tests 
+  - name: apache/airflow:2.10.2-python3.11
+    dir: composer
+    script: |
+      #!/usr/bin/env bash
+      set -eo pipefail  # Enable exit-on-error mode
+      pip install \
+        --requirement tests/requirements.txt \
+        --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.10.2/constraints-3.11.txt
+      airflow standalone &
+      airflow db check
+      python3 -m pytest -s tests
+  # Copy DAGs to the Composer /dags Cloud Storage folder only if unit tests pass
+  - name: gcr.io/cloud-builders/gcloud
+    script: |
+      #!/usr/bin/env bash
+      set -eo pipefail  # Enable exit-on-error mode
+      gcloud storage cp dags/*.py gs://us-central1-small-composer-26339c12-bucket/dags/
