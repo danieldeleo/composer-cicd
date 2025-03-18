@@ -1,11 +1,15 @@
 """Example of a Composer DAG that reads a file from GCS and loads it into BigQuery."""
+
 import datetime
+
 from airflow import models  # noqa: F401
-from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
-from airflow.providers.google.cloud.transfers.bigquery_to_gcs import BigQueryToGCSOperator
-
-
+from airflow.providers.google.cloud.transfers.bigquery_to_gcs import (
+    BigQueryToGCSOperator,
+)
+from airflow.providers.google.cloud.transfers.gcs_to_bigquery import (
+    GCSToBigQueryOperator,
+)
 
 with models.DAG(
     dag_id="gcstobq",
@@ -35,43 +39,43 @@ with models.DAG(
                 "mode": "NULLABLE",
                 "type": "STRING",
                 "description": "",
-                "fields": []
+                "fields": [],
             },
             {
                 "name": "release_note_type",
                 "mode": "NULLABLE",
                 "type": "STRING",
                 "description": "",
-                "fields": []
+                "fields": [],
             },
             {
                 "name": "published_at",
                 "mode": "NULLABLE",
                 "type": "DATE",
                 "description": "",
-                "fields": []
+                "fields": [],
             },
             {
                 "name": "product_id",
                 "mode": "NULLABLE",
                 "type": "BIGNUMERIC",
                 "description": "",
-                "fields": []
+                "fields": [],
             },
             {
                 "name": "product_name",
                 "mode": "NULLABLE",
                 "type": "STRING",
                 "description": "",
-                "fields": []
+                "fields": [],
             },
             {
                 "name": "product_version_name",
                 "mode": "NULLABLE",
                 "type": "STRING",
                 "description": "",
-                "fields": []
-            }
+                "fields": [],
+            },
         ],
         skip_leading_rows=1,
         allow_quoted_newlines=True,
@@ -95,4 +99,3 @@ with models.DAG(
         },
     )
     export_table >> load_table >> elt_sql
-    
