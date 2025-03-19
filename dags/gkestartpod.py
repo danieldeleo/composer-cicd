@@ -28,5 +28,5 @@ with DAG(
         is_delete_operator_pod=True, #delete the pod after completion
         get_logs=True, #send logs to airflow
         # Use a specific kubernetes service account (optional):
-        # service_account_name='your-kubernetes-service-account',
+        service_account_name='hellogke',
     )
