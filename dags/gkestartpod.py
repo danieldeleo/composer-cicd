@@ -20,7 +20,7 @@ with DAG(
         namespace='default',  # Replace with your namespace
         image='ubuntu:latest',  # Replace with your image
         cmds=['bash', '-cx'],
-        arguments=['echo', 'Hello, GKE!'],
+        arguments=['echo "Hello, GKE!"'],
         # Specify your GKE cluster details:
         cluster_name='autopilot-cluster',  # Replace with your GKE cluster name
         location='us-central1',  # Replace with your GKE cluster location
