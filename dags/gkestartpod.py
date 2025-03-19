@@ -10,7 +10,9 @@ with DAG(
     start_date=datetime(2023, 1, 1),
     catchup=False,
     tags=['gke', 'kubernetes', 'gcp'],
-    task_retry_delay=timedelta(seconds=5),
+    default_args=dict(
+        retry_delay=timedelta(seconds=5),
+    ),
 ) as dag:
     run_gke_pod = GKEStartPodOperator(
         task_id='run_gke_pod',
