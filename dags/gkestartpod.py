@@ -24,6 +24,7 @@ with DAG(
         location='us-central1',  # Replace with your GKE cluster location
         project_id='danny-bq', # Replace with your GCP project ID
         is_delete_operator_pod=True, #delete the pod after completion
+        send_logs=True, #send logs to airflow
         # Use a specific GKE service account (optional):
         # google_service_account='your-gke-service-account@your-project.iam.gserviceaccount.com',
     )
