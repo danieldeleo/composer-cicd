@@ -17,7 +17,7 @@ with DAG(
     run_gke_pod = GKEStartPodOperator(
         task_id='run_gke_pod',
         name='gke-pod-example',
-        namespace='default',  # Replace with your namespace
+        namespace='composer-user-workloads',  # Replace with your namespace
         image='ubuntu:latest',  # Replace with your image
         cmds=['bash', '-cx'],
         arguments=['echo "Hello, GKE!";'],
