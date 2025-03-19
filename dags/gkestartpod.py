@@ -20,7 +20,7 @@ with DAG(
         # Specify your GKE cluster details:
         cluster_name='autopilot-cluster',  # Replace with your GKE cluster name
         location='us-central1',  # Replace with your GKE cluster location
-        project_id='vz-assessment', # Replace with your GCP project ID
+        project_id='danny-bq', # Replace with your GCP project ID
         is_delete_operator_pod=True, #delete the pod after completion
         # Use a specific GKE service account (optional):
         # google_service_account='your-gke-service-account@your-project.iam.gserviceaccount.com',
