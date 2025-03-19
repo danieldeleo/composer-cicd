@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.providers.google.cloud.operators.kubernetes_engine import GKEStartPodOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
+from datetime import timedelta
 
 with DAG(
     dag_id='gkestartpod',
@@ -9,6 +10,7 @@ with DAG(
     start_date=datetime(2023, 1, 1),
     catchup=False,
     tags=['gke', 'kubernetes', 'gcp'],
+    task_retry_delay=timedelta(seconds=5),
 ) as dag:
     run_gke_pod = GKEStartPodOperator(
         task_id='run_gke_pod',
