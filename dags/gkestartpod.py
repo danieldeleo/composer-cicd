@@ -18,9 +18,9 @@ with DAG(
         task_id='run_gke_pod',
         name='gke-pod-example',
         namespace='default',  # Replace with your namespace
-        image='ubuntu:latest',  # Replace with your image
-        cmds=['bash', '-cx'],
-        arguments=['echo "Hello, GKE!";'],
+        image='gcr.io/google.com/cloudsdktool/cloud-sdk:latest',
+        cmds=['gcloud'],
+        arguments=['auth', 'list'],
         # Specify your GKE cluster details:
         cluster_name='autopilot-cluster',  # Replace with your GKE cluster name
         location='us-central1',  # Replace with your GKE cluster location
